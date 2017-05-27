@@ -1,0 +1,13 @@
+{
+  "siteSettings": {
+    "address": "<<Insert web address>>",
+    "username": "<<Insert site username>>",
+    "password": "<<Insert site password>>"
+  },
+  "serverSettings": {
+    "address": "<<Insert web address>>",
+    "username": "<<Insert site username>>",
+    "password": "<<Insert site password>>",
+    "location": "<<Location for the files on the server>>"
+  }
+}
