@@ -1,13 +1,13 @@
 [
   {
     "title": "<<Title1>>",
-    "series": "<<Series>>",
+    "season": "<<Series>>",
     "format": ["<<FormatPri>>", "<<FormatSec>>"],
     "resolution": "<<Resolution>>"
   },
   {
     "title": "<<Title2>>",
-    "series": "<<Series>>",
+    "season": "<<Series>>",
     "format": ["<<FormatPri>>", "<<FormatSec>>"],
     "resolution": "<<Resolution>>"
   }
