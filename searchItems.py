@@ -75,16 +75,25 @@ class Show(SearchItems):
         print(check_exists_by_id(self.browser, "iptStart"))
         for resPref in self.resolution:
             for vidPref in self.vidFormat:
-                self.browser.execute_script("$('#catters :input[type=\"checkbox\"]').prop('checked', false);");
+                # uncheck all catagories
+                self.browser.execute_script("$('#catters :input[type=\"checkbox\"]').prop('checked', false);")
+                # check the TV format
                 self.browser.execute_script('$(\'#catters > table > tbody > tr > td:nth-child(2) > label:nth-child(' + str(self.tvFormat[vidPref]) + ') > input[type="checkbox"]\').prop(\'checked\', true);')
+                # check the video resolution
                 self.browser.execute_script('$(\'#catters > table > tbody > tr > td:nth-child(6) > label:nth-child(' + str(self.resFormat[resPref]) + ') > input[type="checkbox"]\').prop(\'checked\', true);')
                 qInput = self.browser.find_element_by_name('q')
                 qInput.clear()
                 qInput.send_keys(self.title)
-                qButton = self.browser.find_element_by_xpath('//*[@id="Search"]/tbody/tr/td/input[2]')
-                qButton.click()
-                print("Searching for an episode of {} from season {} in {} format with {} resolution.".format(self.title, self.season, vidPref, resPref))
+                self.browser.find_element_by_xpath('//*[@id="Search"]/tbody/tr/td/input[2]').click()
+                # Get rows
+                rows = self.browser.find_elements_by_xpath('//*[@id="torrents"]/tbody/tr[position()>=2]')
+                print("Found {} results for episodes of {} in {} format with {} resolution.".format(len(rows), self.title, vidPref, resPref))
+                for row in rows:
+                    #print(row.get_attribute('innerHTML'))
+                    print("Title: " + row.find_element_by_class_name('b').text)
+                    print("Download: " + row.find_element_by_xpath('.//td[4]/a').get_attribute('href'))
 
-        self.browser.save_screenshot('screenie.png')
 
-        return "Searching {} for an episode of {} from season {}.".format(self.site, self.title, self.season)
+        #self.browser.save_screenshot('screenie.png')
+
+        #return "Searching {} for an episode of {} from season {}.".format(self.site, self.title, self.season)
