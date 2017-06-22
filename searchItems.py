@@ -89,7 +89,6 @@ class Show(SearchItems):
                 rows = self.browser.find_elements_by_xpath('//*[@id="torrents"]/tbody/tr[position()>=2]')
                 print("Found {} results for episodes of {} in {} format with {} resolution.".format(len(rows), self.title, vidPref, resPref))
                 for row in rows:
-                    #print(row.get_attribute('innerHTML'))
                     print("Title: " + row.find_element_by_class_name('b').text)
                     print("Download: " + row.find_element_by_xpath('.//td[4]/a').get_attribute('href'))
 
