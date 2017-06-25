@@ -1,4 +1,5 @@
 import json
+import re
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
@@ -47,6 +48,10 @@ class Show(SearchItems):
     tvFormat = {'TV/Web-DL': 13, 'TV/x264': 14, 'TV/x265': 15, 'TV/Xvid': 16}
     resFormat = {'720p': 7, '1080p': 8, '2160p': 9}
 
+    season = None
+    episode = None
+
+
     def __init__(self, title, season, vidFormat, resolution, site=None):
         self.title = title
         self.season = season
@@ -89,10 +94,24 @@ class Show(SearchItems):
                 rows = self.browser.find_elements_by_xpath('//*[@id="torrents"]/tbody/tr[position()>=2]')
                 print("Found {} results for episodes of {} in {} format with {} resolution.".format(len(rows), self.title, vidPref, resPref))
                 for row in rows:
-                    print("Title: " + row.find_element_by_class_name('b').text)
-                    print("Download: " + row.find_element_by_xpath('.//td[4]/a').get_attribute('href'))
+                    self.season = None
+                    self.episode = None
+                    if self.parseTitle(row.find_element_by_class_name('b').text):
+                        print("Download: " + row.find_element_by_xpath('.//td[4]/a').get_attribute('href'))
+                    else:
+                        continue
 
-
-        #self.browser.save_screenshot('screenie.png')
-
-        #return "Searching {} for an episode of {} from season {}.".format(self.site, self.title, self.season)
+    def parseTitle(self, fullTitle):
+        if bool(re.match(self.title, fullTitle, re.I)):
+            # The unparsed string starts with the correct title
+            p = re.compile("[Ss](\d{2})[Ee](\d{2})")        # find the pattern of S##E##, case-insensitive and capture the digits
+            m = p.search(fullTitle)
+            if m:
+                self.season = m.group(1)
+                self.episode = m.group(2)
+                print("Found season {} episode {} of {}".format(self.season, self.episode, self.title))
+                return True
+            else:
+                return False
+        else:
+            return False
