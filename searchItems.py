@@ -108,7 +108,7 @@ class Show(SearchItems):
                     if self.parseTitle(row.find_element_by_class_name('b').text):
                         if self.season == self.foundSeason:
                             print("Checking for {} S{}E{}".format(self.title, self.foundSeason, self.foundEpisode))
-                            if !self.checkLocalFor(self.title, self.foundSeason, self.foundEpisode):
+                            if not self.checkLocalFor(self.title, self.foundSeason, self.foundEpisode):
                                 if not self.box.checkFor(self.title, self.foundSeason, self.foundEpisode, '.'):
                                     if not self.box.checkFor(self.title, self.foundSeason, self.foundEpisode, 'watch'):
                                         print("Download: " + row.find_element_by_xpath('.//td[4]/a').get_attribute('href'))
