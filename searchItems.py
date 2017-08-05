@@ -137,7 +137,7 @@ class Show(SearchItems):
             return False
 
     def checkLocalFor(self, title, season, episode):
-        showLocation = os.path.join(self.localPath, self.tvFolder, title.lower(), "Season " + season).rstrip()
+        showLocation = os.path.expanduser(os.path.join(self.localPath, self.tvFolder, title.lower(), "Season " + season))
         print(showLocation + " " + str(os.path.exists(showLocation)))
         if(os.path.exists(showLocation)):
             # a directory exists for the show and season,continue search
